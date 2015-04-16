@@ -1,0 +1,30 @@
+buildscript {
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:0.11.91.1'
+    }
+}
+
+plugins {
+    id 'java' // or 'groovy' Must be explicitly applied
+    id 'com.github.johnrengelman.shadow' version '1.2.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+version = '0.0.1'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+ext.libs = [
+    kotlin: 'org.jetbrains.kotlin:kotlin-stdlib:0.11.91.1',
+    unit_tests: [
+        'junit:junit:4.+',
+        'org.assertj:assertj-core:2+'
+    ]
+]
+
+dependencies {
+    compile project(':dynamok-core')
+    compile project(':dynamok-scaling')
+}
