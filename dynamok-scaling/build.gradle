@@ -1,11 +1,3 @@
-version = '0.0.1'
-
-apply plugin: 'kotlin'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile libs.kotlin
 
