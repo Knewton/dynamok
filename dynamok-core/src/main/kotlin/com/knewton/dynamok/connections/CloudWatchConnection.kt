@@ -19,6 +19,7 @@ package com.knewton.dynamok.connections
 import com.amazonaws.services.cloudwatch.model.Dimension
 import com.amazonaws.services.cloudwatch.model.GetMetricStatisticsRequest
 import com.amazonaws.services.cloudwatch.model.StandardUnit
+import com.amazonaws.services.cloudwatch.model.Statistic
 import com.knewton.dynamok.data.DynamoIndex
 import org.joda.time.DateTime
 import org.joda.time.Duration
@@ -65,6 +66,7 @@ public open class CloudWatchConnection(clientFactory: AWSClientFactory) {
                 .withEndTime(end.toDate())
                 .withMetricName(metric)
                 .withNamespace("AWS/DynamoDB")
+                .withStatistics(Statistic.Sum)
                 .withDimensions(dimensions)
                 .withUnit(StandardUnit.Count)
 
