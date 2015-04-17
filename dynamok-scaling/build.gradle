@@ -1,0 +1,5 @@
+dependencies {
+    compile libs.kotlin
+
+    testCompile libs.unit_tests
+}
