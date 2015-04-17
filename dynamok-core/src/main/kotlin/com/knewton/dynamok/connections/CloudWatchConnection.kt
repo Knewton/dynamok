@@ -35,7 +35,8 @@ public open class CloudWatchConnection(clientFactory: AWSClientFactory) {
 
     /**
      * Retrieves the average data of a given metric on a given index (either a table's primary
-     * index or global secondary index).
+     * index or global secondary index) from (now - PERIOD_SECONDS - LOOKBACK_BUFFER_MINUTES) to
+     * (now - LOOKBACK_BUFFER_MINUTES).
      *
      * @param index The primary or global secondary index
      * @param metric The AWS metric name to retrieve (ex: ConsumedReadCapacityUnits)
@@ -54,6 +55,10 @@ public open class CloudWatchConnection(clientFactory: AWSClientFactory) {
                                       .withValue(index.gsiName))
         }
 
+        // Creates a metrics request, see
+        // http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html
+        // for more information.
+        // Period is set to the interval, so we retrieve just one data point
         val request = GetMetricStatisticsRequest()
                 .withPeriod(PERIOD_SECONDS)
                 .withStartTime(start.toDate())
@@ -64,6 +69,9 @@ public open class CloudWatchConnection(clientFactory: AWSClientFactory) {
                 .withUnit(StandardUnit.Count)
 
         val result = client.getMetricStatistics(request)
+
+        // We expect one data point, however, Dynamo does not record metrics if there is no activity
+        // on the table (so there may be zero data points).
         val datapoint = result.getDatapoints().singleOrNull()
 
         return ((datapoint?.getSum()) ?: 0.0) / PERIOD_SECONDS.toDouble()

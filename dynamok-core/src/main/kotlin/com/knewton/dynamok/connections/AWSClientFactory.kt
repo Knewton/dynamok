@@ -52,6 +52,6 @@ public open class AWSClientFactory(val credentials: AWSCredentials,
      *
      * @return Returns a new SNS client with credentials and configuration
      */
-    public open fun createSNSClient(): AmazonSNSClient = AmazonSNSClient(
-            credentials, configuration)
+    public open fun createSNSClient(): AmazonSNSClient =
+            AmazonSNSClient(credentials, configuration)
 }

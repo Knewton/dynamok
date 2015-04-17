@@ -26,7 +26,13 @@ import java.lang.reflect.Proxy
  */
 public object KMockito
 
-// returns an instance of the specified class or interface
+/**
+ * Returns an instance of the specified class or interface, by either creating a proxy or
+ * no-args serialization constructor and instantiating it.
+ *
+ * @param clazz The class type to create
+ * @return An instance of the given class type
+ */
 public fun <T> getInstance(clazz: Class<T>): T {
     if (clazz.isInterface()) {
         return clazz.cast(Proxy.newProxyInstance(clazz.getClassLoader(), array(clazz),
@@ -39,14 +45,32 @@ public fun <T> getInstance(clazz: Class<T>): T {
     }
 }
 
-// similar to Mockito's eq() matcher
+/**
+ * Similar to Mockito's eq() matcher.
+ *
+ * @param value The expected value of the object to match.
+ * @return The object value
+ */
 public fun <T> eq(value: T): T = Matchers.eq(value) ?: value
 
-// similar to Mockito's any(class) matcher
+/**
+ * Similar to Mockito's any(class) matcher
+ *
+ * @param clazz The class type to match
+ * @return An instance of the class
+ */
 public fun <T> any(clazz: Class<T>): T = Matchers.any(clazz) ?: getInstance(clazz)
 
-// similar to Mockito's any() matcher
+/**
+ * Similar to Mockito's any() matcher
+ *
+ * @return An instance of the class
+ */
 public inline fun <reified T> any(): T = Matchers.any() ?: getInstance(javaClass<T>())
 
-// similar to Mockito's anyObject matcher
+/**
+ * Similar to Mockito's anyObject matcher
+ *
+ * @return An instance of the class
+ */
 public inline fun <reified T> anyObject(): T = any()
