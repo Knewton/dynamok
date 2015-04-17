@@ -1,6 +1,4 @@
-rootProject.name = 'dynamok'
+rootProject.name = "dynamok"
 
-include 'dynamok-core'
-
-include 'dynamok-scaling'
-
+include "dynamok-core"
+include "dynamok-scaling"
