@@ -45,7 +45,7 @@ The above code starts the service, then adds the table "users" to watch.  "users
 
 ## Documentation
 
-TODO
+Documentation may be found on the project site: [knewton.github.io/dynamok](knewton.github.io/dynamok).
 
 ## Reporting Bugs and Requesting Features
 
