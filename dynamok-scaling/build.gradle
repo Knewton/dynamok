@@ -1,5 +1,9 @@
 dependencies {
+    compile project(":dynamok-core")
     compile libs.kotlin
+    compile libs.aws_dynamo
+    compile libs.log
 
     testCompile libs.unit_tests
+    testCompile libs.log_tests
 }
