@@ -20,7 +20,8 @@ package com.knewton.dynamok.config
  * Configuration used for DynamoScalingService
  */
 public data class ScalingServiceConfig(
-        // How often to poll for Dynamo usage (should be >= 300)
+        // How often to poll for Dynamo usage (should be >= 300, since CloudWatch updates every
+        // five minutes)
         val checkIntervalSeconds: Int = 300,
-        // The ARN to send alerts to (ie. when scaling limits are r
+        // The ARN to send alerts to (ie. when scaling limits are reached)
         val notificationARN: String = "")

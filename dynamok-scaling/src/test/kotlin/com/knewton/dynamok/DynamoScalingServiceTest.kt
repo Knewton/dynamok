@@ -70,38 +70,38 @@ class DynamoScalingServiceTest {
     }
 
     Test
-    fun testComputeTargetUnit() {
-        assertThat(underTest.computeTargetUnit(5, 2.0, 0, 7)).isEqualTo(7)
-        assertThat(underTest.computeTargetUnit(5, 1.0, 0, 6)).isEqualTo(5)
-        assertThat(underTest.computeTargetUnit(5, 0.4, 0, 6)).isEqualTo(2)
-        assertThat(underTest.computeTargetUnit(5, 0.1, 0, 6)).isEqualTo(0)
-        assertThat(underTest.computeTargetUnit(5, 0.1, 7, 10)).isEqualTo(7)
+    fun testComputeTargetThroughput() {
+        assertThat(underTest.computeTargetThroughput(5, 2.0, 0, 7)).isEqualTo(7)
+        assertThat(underTest.computeTargetThroughput(5, 1.0, 0, 6)).isEqualTo(5)
+        assertThat(underTest.computeTargetThroughput(5, 0.4, 0, 6)).isEqualTo(2)
+        assertThat(underTest.computeTargetThroughput(5, 0.1, 0, 6)).isEqualTo(0)
+        assertThat(underTest.computeTargetThroughput(5, 0.1, 7, 10)).isEqualTo(7)
     }
 
     Test
-    fun testShouldDownscale() {
+    fun testMayDownscale() {
         var config = IndexScalingConfig(index = DynamoIndex("test"), minRead = 1, minWrite = 1,
                                         maxRead = 100, maxWrite = 100, downscaleWaitMinutes = 300,
                                         enableDownscale = true)
         var description = DynamoIndexDescription("ACTIVE", DateTime.now(), DateTime.now(),
                                                  DateTime.now(), 5, 5)
 
-        assertThat(underTest.shouldDownscale(config, description)).isFalse()
+        assertThat(underTest.mayDownscale(config, description)).isFalse()
 
         description = description.copy(lastDecrease =
                                        DateTime(description.lastDecrease.minusMinutes(
                                                config.downscaleWaitMinutes + 1)))
-        assertThat(underTest.shouldDownscale(config, description)).isFalse()
+        assertThat(underTest.mayDownscale(config, description)).isFalse()
 
         description = description.copy(lastIncrease =
                                        DateTime(description.lastIncrease.minusMinutes(
                                                config.downscaleWaitMinutes + 1)))
-        assertThat(underTest.shouldDownscale(config, description)).isTrue()
+        assertThat(underTest.mayDownscale(config, description)).isTrue()
 
         config = config.copy(enableDownscale = false)
-        assertThat(underTest.shouldDownscale(config, description)).isFalse()
+        assertThat(underTest.mayDownscale(config, description)).isFalse()
         config = config.copy(enableDownscale = true, maxRead = 3, maxWrite = 3)
-        assertThat(underTest.shouldDownscale(config, description)).isFalse()
+        assertThat(underTest.mayDownscale(config, description)).isFalse()
     }
 
     Test
@@ -112,11 +112,11 @@ class DynamoScalingServiceTest {
         var description = DynamoIndexDescription("ACTIVE", DateTime.now(), DateTime.now(),
                                                  DateTime.now(), 5, 5)
 
-        assertThat(underTest.shouldUpscale(config, description)).isTrue()
+        assertThat(underTest.mayUpscale(config, description)).isTrue()
         config = config.copy(enableUpscale = false)
-        assertThat(underTest.shouldUpscale(config, description)).isFalse()
+        assertThat(underTest.mayUpscale(config, description)).isFalse()
         config = config.copy(enableUpscale = true, maxRead = 3, maxWrite = 3)
-        assertThat(underTest.shouldDownscale(config, description)).isFalse()
+        assertThat(underTest.mayUpscale(config, description)).isFalse()
     }
 
     Test

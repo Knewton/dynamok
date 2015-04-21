@@ -132,8 +132,7 @@ open class DynamoScalingService(private val serviceConfig: ScalingServiceConfig,
      * @param description The current index throughput description
      * @return True if should upscale throughput, false otherwise
      */
-    open fun shouldUpscale(config: IndexScalingConfig,
-                           description: DynamoIndexDescription): Boolean {
+    open fun mayUpscale(config: IndexScalingConfig, description: DynamoIndexDescription): Boolean {
         return config.enableUpscale && !isScalingOverridden(config, description)
     }
 
@@ -146,8 +145,8 @@ open class DynamoScalingService(private val serviceConfig: ScalingServiceConfig,
      * @param description The current index throughput description
      * @return True if should downscale throughput, false otherwise
      */
-    open fun shouldDownscale(config: IndexScalingConfig,
-                             description: DynamoIndexDescription): Boolean {
+    open fun mayDownscale(config: IndexScalingConfig,
+                          description: DynamoIndexDescription): Boolean {
         val now = DateTime.now()
         val downscaleInterval = Minutes.minutesBetween(description.lastDecrease, now).getMinutes()
         val upscaleInterval = Minutes.minutesBetween(description.lastIncrease, now).getMinutes()
@@ -176,24 +175,24 @@ open class DynamoScalingService(private val serviceConfig: ScalingServiceConfig,
         val percentConsumedReads = consumedReads / description.readCapacity.toDouble()
         val percentConsumedWrites = consumedWrites / description.writeCapacity.toDouble()
 
-        if (shouldUpscale(config, description)) {
+        if (mayUpscale(config, description)) {
             if (percentConsumedReads >= config.upscalePercent) {
-                targetReads = computeTargetUnit(targetReads, config.scaleUpFactor + 1,
-                                                config.minRead, config.maxRead)
+                targetReads = computeTargetThroughput(targetReads, config.scaleUpFactor + 1,
+                                                      config.minRead, config.maxRead)
             }
             if (percentConsumedWrites >= config.upscalePercent) {
-                targetWrites = computeTargetUnit(targetWrites, config.scaleUpFactor + 1,
-                                                 config.minWrite, config.maxWrite)
+                targetWrites = computeTargetThroughput(targetWrites, config.scaleUpFactor + 1,
+                                                       config.minWrite, config.maxWrite)
             }
         }
-        if (shouldDownscale(config, description)) {
+        if (mayDownscale(config, description)) {
             if (percentConsumedReads <= config.downscalePercent) {
-                targetReads = computeTargetUnit(targetReads, 1 - config.scaleDownFactor,
-                                                config.minRead, config.maxRead)
+                targetReads = computeTargetThroughput(targetReads, 1 - config.scaleDownFactor,
+                                                      config.minRead, config.maxRead)
             }
             if (percentConsumedWrites <= config.downscalePercent) {
-                targetWrites = computeTargetUnit(targetWrites, 1 - config.scaleDownFactor,
-                                                 config.minWrite, config.maxWrite)
+                targetWrites = computeTargetThroughput(targetWrites, 1 - config.scaleDownFactor,
+                                                       config.minWrite, config.maxWrite)
             }
         }
 
@@ -286,7 +285,7 @@ open class DynamoScalingService(private val serviceConfig: ScalingServiceConfig,
      * @param max The maximum allowed value (upper end of the clamp)
      * @return
      */
-    open fun computeTargetUnit(currentUnits: Long, scale: Double, min: Int, max: Int): Long {
+    open fun computeTargetThroughput(currentUnits: Long, scale: Double, min: Int, max: Int): Long {
         return Math.max(Math.min(currentUnits * scale, max.toDouble()), min.toDouble()).toLong()
     }
 
