@@ -1,0 +1,9 @@
+dependencies {
+    compile libs.kotlin
+    compile libs.aws_dynamo
+    compile libs.aws_cloudwatch
+    compile libs.aws_sns
+
+    testCompile libs.unit_tests
+    testCompile libs.apache_lang
+}
