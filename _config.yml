@@ -1,0 +1,21 @@
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
+
+# Permalinks
+permalink:        pretty
+relative_permalinks: true
+
+# Setup
+title:            Dynamok
+tagline:          'Automatic Dynamo table provisioning'
+description:      'A <a href="http://kotlinlang.org/">Kotlin</a> library to automatically manage Dynamo table provisioning.'
+url:              http://knewton.github.io/dynamok/
+baseurl:          /dynamok
+
+author:
+  name:           'Knewton'
+  url:            http://knewton.com
+
+github:
+  repo:           https://github.com/Knewton/dynamok
