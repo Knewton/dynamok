@@ -1,6 +1,7 @@
 # Dynamok
 
 [![Build Status](https://travis-ci.org/Knewton/dynamok.svg)](https://travis-ci.org/Knewton/dynamok)
+[![Coverage Status](https://coveralls.io/repos/Knewton/dynamok/badge.svg)](https://coveralls.io/r/Knewton/dynamok)
 ## Maintainers
 
 This project is maintained by
@@ -33,7 +34,7 @@ Dynamok provides a single service (DynamoScalingService) which is responsible fo
 // Create and start the service
 ScalingServiceConfig serviceConfig = new ScalingServiceConfig();
 AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretAccessKey);
-DynamoScalingService service = new DynamoScalingService(serviceConfig, 
+DynamoScalingService service = new DynamoScalingService(serviceConfig,
                                                         new AWSClientFactory(credentials));
 service.start();
 
@@ -46,7 +47,7 @@ The above code starts the service, then adds the table "users" to watch.  "users
 
 ## Documentation
 
-Documentation may be found on the project site: [knewton.github.io/dynamok](knewton.github.io/dynamok).
+Documentation may be found on the project site: [knewton.github.io/dynamok](http://knewton.github.io/dynamok/).
 
 ## Reporting Bugs and Requesting Features
 
