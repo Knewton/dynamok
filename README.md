@@ -1,7 +1,7 @@
 # Dynamok
 
 [![Build Status](https://travis-ci.org/Knewton/dynamok.svg)](https://travis-ci.org/Knewton/dynamok)
-[![Coverage Status](https://coveralls.io/repos/Knewton/dynamok/badge.svg)](https://coveralls.io/r/Knewton/dynamok)
+[![Coverage Status](https://coveralls.io/repos/Knewton/dynamok/badge.svg?branch=master)](https://coveralls.io/r/Knewton/dynamok?branch=master)
 ## Maintainers
 
 This project is maintained by
