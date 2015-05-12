@@ -1,5 +1,6 @@
 # Dynamok
 
+[![Build Status](https://travis-ci.org/Knewton/dynamok.svg)](https://travis-ci.org/Knewton/dynamok)
 ## Maintainers
 
 This project is maintained by
