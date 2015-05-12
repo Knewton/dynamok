@@ -21,7 +21,7 @@ Dynamok is written in [Kotlin](http://kotlinlang.org/), and is fully compatible 
 
 Dynamok uses [Gradle](https://gradle.org/) - to build, simply run:
 ```
-gradle clean install
+gradle clean build
 ```
 
 ## Example Usage

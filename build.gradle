@@ -15,7 +15,6 @@ repositories {
 }
 
 group = "com.knewton.dynamok"
-apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: "com.github.kt3k.coveralls"
 
 allprojects {
@@ -29,6 +28,11 @@ allprojects {
     repositories {
         mavenCentral()
     }
+}
+
+subprojects {
+
+    apply plugin: "signing"
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = "sources"
@@ -40,9 +44,75 @@ allprojects {
         from javadoc.destinationDir
     }
 
+    signing {
+        sign configurations.archives
+    }
+
+    signArchives {
+        onlyIf { gradle.taskGraph.hasTask(uploadArchives) }
+    }
+
     artifacts {
+        archives jar
         archives sourcesJar
         archives javadocJar
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                if (!hasProperty('ossrhUsername')) {
+                    ext.ossrhUsername = ''
+                }
+                if (!hasProperty('ossrhPassword')) {
+                    ext.ossrhPassword = ''
+                }
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                   name 'dynamok'
+                   packaging 'jar'
+                   description 'Dynamok is a library providing automatic provisioned throughput scaling for DynamoDB'
+                   url 'http://knewton.github.io/dynamok/'
+
+                   scm {
+                       url 'scm:git@github.com:Knewton/dynamok.git'
+                       connection 'scm:git@github.com:Knewton/dynamok.git'
+                       developerConnection 'scm:git@github.com:Knewton/dynamok.git'
+                   }
+
+                   licenses {
+                       license {
+                           name 'The Apache Software License, Version 2.0'
+                           url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                           distribution 'repo'
+                       }
+                   }
+
+                   developers {
+                       developer {
+                           id 'psastras'
+                           name 'Paul Sastrasinh'
+                       }
+                       developer {
+                           id 'celiala'
+                           name 'Celia La'
+                       }
+                       developer {
+                           id 'rmurcek'
+                           name 'Rob Murcek'
+                       }
+                   }
+               }
+            }
+        }
     }
 }
 
@@ -86,7 +156,4 @@ task jacocoRootReport(type: JacocoReport) {
     setOnlyIf { true }
 }
 
-tasks.build.dependsOn(javadoc)
 tasks.build.dependsOn(jacocoRootReport)
-tasks.build.dependsOn(shadowJar)
-tasks.install.dependsOn(build)
