@@ -1,6 +1,7 @@
 buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.11.91.1"
+        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1"
     }
 }
 
@@ -15,6 +16,7 @@ repositories {
 
 group = "com.knewton.dynamok"
 apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: "com.github.kt3k.coveralls"
 
 allprojects {
     apply plugin: "maven"
@@ -43,6 +45,7 @@ allprojects {
         archives javadocJar
     }
 }
+
 ext.libs = [
     kotlin: "org.jetbrains.kotlin:kotlin-stdlib:0.11.91.1",
     aws_dynamo: "com.amazonaws:aws-java-sdk-dynamodb:1.9.+",
@@ -64,6 +67,10 @@ dependencies {
     compile project(":dynamok-scaling")
 }
 
+coveralls {
+    sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
+}
+
 task jacocoRootReport(type: JacocoReport) {
     dependsOn = subprojects.test
     additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
@@ -74,7 +81,9 @@ task jacocoRootReport(type: JacocoReport) {
         html.enabled = true
         xml.enabled = true
         csv.enabled = false
+        xml.destination = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
     }
+    setOnlyIf { true }
 }
 
 tasks.build.dependsOn(javadoc)
