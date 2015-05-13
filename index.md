@@ -23,4 +23,4 @@ From the [README](https://github.com/Knewton/dynamok/blob/master/README.md),
 
 To begin using Dynamok, see the [getting started](/dynamok/start/) guide.
 
-If you have questions or wish to report bugs / request features, feel free to [open an issue](https://github.com/Knewton/dynamok/issues).  Dynamok is open source and [licensed under the Apache 2.0 License](/about).
+If you have questions or wish to report bugs / request features, feel free to [open an issue](https://github.com/Knewton/dynamok/issues).  Dynamok is open source and [licensed under the Apache 2.0 License](/dynamok/about/).
