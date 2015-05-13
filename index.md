@@ -3,6 +3,9 @@ title: Home
 layout: page
 ---
 
+[![Build Status](https://travis-ci.org/Knewton/dynamok.svg?branch=master)](https://travis-ci.org/Knewton/dynamok)
+[![Coverage Status](https://coveralls.io/repos/Knewton/dynamok/badge.svg?branch=master)](https://coveralls.io/r/Knewton/dynamok?branch=master)
+
 ## What is Dynamok?
 
 From the [README](https://github.com/Knewton/dynamok/blob/master/README.md),
