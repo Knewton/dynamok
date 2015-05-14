@@ -3,6 +3,20 @@ title: Getting Started
 layout: page
 ---
 
+### Including
+#### Maven
+```
+<dependency>
+    <groupId>com.knewton.dynamok</groupId>
+    <artifactId>dynamok-scaling</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+#### Gradle
+```
+'com.knewton.dynamok:dynamok-scaling:0.0.1'
+```
+
 ### Building
 
 Dynamok uses [Gradle](https://gradle.org/) - to build and install, simply run
