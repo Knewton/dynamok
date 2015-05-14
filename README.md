@@ -1,7 +1,9 @@
 # Dynamok
 
 [![Build Status](https://travis-ci.org/Knewton/dynamok.svg)](https://travis-ci.org/Knewton/dynamok)
-[![Coverage Status](https://coveralls.io/repos/Knewton/dynamok/badge.svg?branch=master)](https://coveralls.io/r/Knewton/dynamok?branch=master)
+[![Coverage Status](https://coveralls.io/repos/Knewton/dynamok/badge.svg?branch=master)](https://coveralls.io/r/Knewton/
+dynamok?branch=master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.knewton.dynamok/dynamok-scaling/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.knewton/dynamok-scaling/)
 ## Maintainers
 
 This project is maintained by
@@ -16,6 +18,20 @@ Dynamok is a library providing automatic provisioned throughput scaling for Amaz
 Dynamok shares much in common with https://github.com/sebdah/dynamic-dynamodb.  The main difference is that dynamok is a Java library where as dynamic-dynamodb is a python service. Since this is a Java library, it can be easier to integrate to an existing Java service, and allows easy on-the-fly configuration changes from Java (or other JVM languages).
 
 Dynamok is written in [Kotlin](http://kotlinlang.org/), and is fully compatible with Java.
+
+## Maven or Gradle
+
+```
+<dependency>
+    <groupId>com.knewton.dynamok</groupId>
+    <artifactId>dynamok-scaling</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+
+```
+'com.knewton.dynamok:dynamok-scaling:0.0.1'
+```
 
 ## Building
 

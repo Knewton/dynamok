@@ -58,16 +58,19 @@ subprojects {
         archives javadocJar
     }
 
+    ext {
+        if (!project.hasProperty('ossrhUsername'))
+            ossrhUsername = ''
+
+        if (!project.hasProperty('ossrhPassword'))
+            ossrhPassword = ''
+    }
+
     uploadArchives {
         repositories {
             mavenDeployer {
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-                if (!hasProperty('ossrhUsername')) {
-                    ext.ossrhUsername = ''
-                }
-                if (!hasProperty('ossrhPassword')) {
-                    ext.ossrhPassword = ''
-                }
+
                 repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                     authentication(userName: ossrhUsername, password: ossrhPassword)
                 }
@@ -118,17 +121,17 @@ subprojects {
 
 ext.libs = [
     kotlin: "org.jetbrains.kotlin:kotlin-stdlib:0.11.91.1",
-    aws_dynamo: "com.amazonaws:aws-java-sdk-dynamodb:1.9.+",
-    aws_cloudwatch: "com.amazonaws:aws-java-sdk-cloudwatch:1.9.+",
-    aws_sns: "com.amazonaws:aws-java-sdk-sns:1.9.+",
+    aws_dynamo: "com.amazonaws:aws-java-sdk-dynamodb:1.9.34",
+    aws_cloudwatch: "com.amazonaws:aws-java-sdk-cloudwatch:1.9.34",
+    aws_sns: "com.amazonaws:aws-java-sdk-sns:1.9.34",
     apache_lang: "org.apache.commons:commons-lang3:3.4",
-    log: "org.slf4j:slf4j-api:1.7.+",
+    log: "org.slf4j:slf4j-api:1.7.12",
 
-    log_tests: "org.slf4j:slf4j-simple:1.7.+",
+    log_tests: "org.slf4j:slf4j-simple:1.7.12",
     unit_tests: [
-        "junit:junit:4.+",
-        "org.assertj:assertj-core:2+",
-        "org.mockito:mockito-core:2+"
+        "junit:junit:4.12",
+        "org.assertj:assertj-core:2.0.0",
+        "org.mockito:mockito-core:2.0.7-beta"
     ]
 ]
 
